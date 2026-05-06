@@ -1,5 +1,4 @@
 # HelloET - Local Discovery Platform for Ethiopia
-12345
 A modern, trusted local discovery platform built with Next.js, TypeScript, and MySQL to help users discover businesses across Ethiopia.
 
 ## 🚀 Features
