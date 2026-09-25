@@ -2,46 +2,66 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Search, MapPin, ChevronRight, Compass, Sparkles, Play, Pause } from 'lucide-react'
+import { 
+  Search, MapPin, ChevronRight, Sparkles, 
+  Play, Pause, Star, ArrowUpRight, Shield, Users, TrendingUp
+} from 'lucide-react'
 
-// Ethiopian landmarks with better quality images
 const ethiopianLandmarks = [
   {
     name: 'Lalibela Rock Churches',
-    image: 'https://images.unsplash.com/photo-1535320404287-416e1c1b2e70?w=1920&q=80',
-    description: 'Ancient UNESCO World Heritage rock-hewn churches'
+    image: 'https://images.unsplash.com/photo-1535320404287-416e1c1b2e70?w=1920&q=90',
+    subtitle: 'UNESCO World Heritage',
+    city: 'Lalibela'
   },
   {
     name: 'Simien Mountains',
-    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80',
-    description: 'Breathtaking highlands & endemic wildlife'
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=90',
+    subtitle: 'Breathtaking Highlands',
+    city: 'Gondar'
   },
   {
     name: 'Addis Ababa',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=80',
-    description: 'Vibrant capital of modern Ethiopia'
+    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=90',
+    subtitle: 'Capital of Ethiopia',
+    city: 'Addis Ababa'
   },
   {
-    name: 'Axum Stelae',
-    image: 'https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=1920&q=80',
-    description: 'Ancient obelisks of the Axumite Empire'
+    name: 'Axum Ancient Stelae',
+    image: 'https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=1920&q=90',
+    subtitle: 'Ancient Axumite Empire',
+    city: 'Axum'
   },
   {
     name: 'Blue Nile Falls',
-    image: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=1920&q=80',
-    description: 'Smoking Water — Tis Issat'
+    image: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=1920&q=90',
+    subtitle: 'Tis Issat — Smoking Water',
+    city: 'Bahir Dar'
   }
+]
+
+const ethiopianCities = [
+  'All Locations', 'Addis Ababa', 'Bahir Dar', 'Hawassa', 'Mekelle',
+  'Dire Dawa', 'Adama', 'Gondar', 'Jimma', 'Jijiga', 'Dessie',
+  'Arba Minch', 'Sodo', 'Lalibela', 'Axum', 'Harar', 'Debre Markos'
+]
+
+const statsData = [
+  { value: '10K+', label: 'Businesses', icon: TrendingUp },
+  { value: '80+', label: 'Cities', icon: MapPin },
+  { value: '50K+', label: 'Reviews', icon: Star },
+  { value: '4.8★', label: 'Platform Rating', icon: Shield },
 ]
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedLocation, setSelectedLocation] = useState('')
+  const [selectedLocation, setSelectedLocation] = useState('All Locations')
   const [currentBgIndex, setCurrentBgIndex] = useState(0)
-
   const [isAutoPlay, setIsAutoPlay] = useState(true)
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  // Auto-rotate background images every 5 seconds
   useEffect(() => {
+    setIsLoaded(true)
     if (!isAutoPlay) return
     const interval = setInterval(() => {
       setCurrentBgIndex((prev) => (prev + 1) % ethiopianLandmarks.length)
@@ -49,367 +69,178 @@ export default function HeroSection() {
     return () => clearInterval(interval)
   }, [isAutoPlay])
 
-  const ethiopianCities = [
-    'All Locations',
-    'Addis Ababa',
-    'Bahir Dar',
-    'Hawassa',
-    'Mekelle',
-    'Dire Dawa',
-    'Adama',
-    'Gondar',
-    'Jimma',
-    'Jijiga',
-    'Dessie',
-    'Shashamane',
-    'Debre Markos',
-    'Kombolcha',
-    'Nekemte',
-    'Woliso',
-    'Sebeta',
-    'Debre Birhan',
-    'Assosa',
-    'Gambela',
-    'Arba Minch',
-    'Sodo',
-    'Hosaena',
-    'Alamata',
-    'Shire',
-    'Adigrat',
-    'Debre Tabor',
-    'Weldiya',
-    'Ambo',
-    'Gore',
-    'Metu',
-    'Tepi',
-    'Negele',
-    'Gimbi',
-    'Bule Hora',
-    'Bedesa',
-    'Guraghe',
-    'Butajira',
-    'Worabe',
-    'Wolaita Sodo',
-    'Durame',
-    'Boditi',
-    'Sululta',
-    'Sebeta',
-    'Dukem',
-    'Debre Zeyit',
-    'Modjo',
-    'Ziway',
-    'Meki',
-    'Awasa',
-    'Shashemene',
-    'Kemise',
-    'Debark',
-    'Lalibela',
-    'Axum',
-    'Adwa',
-    'Adigrat',
-    'Shire',
-    'Humera',
-    'Gondar',
-    'Bahir Dar',
-    'Debre Tabor',
-    'Mekane Selam',
-    'Finote Selam',
-    'Injibara',
-    'Metekel',
-    'Pawe',
-    'Bulan Bore',
-    'Mendi',
-    'Gambela',
-    'Gog',
-    'Dima',
-    'Bonga',
-    'Mizan Teferi',
-    'Tepi',
-    'Maji',
-    'Yirgalem',
-    'Bule',
-    'Hagereselam',
-    'Wolayita Sodo',
-    'Areka',
-    'Sodo',
-    'Boditi',
-    'Arba Minch',
-    'Chencha',
-    'Sawla',
-    'Jinka',
-    'Konso',
-    'Moyale',
-    'Yabelo',
-    'Mega',
-    'Gode',
-    'Degehabur',
-    'Kebri Dehar',
-    'Shinile',
-    'Dire Dawa',
-    'Harar',
-    'Chiro',
-    'Mieso',
-    'Gursum',
-    'Babile',
-    'Jijiga',
-    'Dega Habur',
-    'Aware',
-    'Shinile',
-    'Erer',
-    'Gursum',
-    'Hargeisa',
-    'Berbera',
-    'Borama',
-    'Burao',
-    'Las Anod',
-    'Garowe',
-    'Bosaso',
-    'Qardho',
-    'Galkayo',
-    'Jowhar',
-    'Baidoa',
-    'Kismayo',
-    'Merca',
-    'Barawa',
-    'Afgooye',
-    'Marka',
-    'Janaale',
-    'Brava',
-    'Luuq',
-    'Bardera',
-    'Garbaharey',
-    'Buurdhuubo',
-    'Doolow',
-    'Beled Hawo',
-    'El Wak',
-    'Mandera',
-    'Wajir',
-    'Garissa',
-    'Moyale',
-    'Isiolo',
-    'Marsabit',
-    'Lodwar',
-    'Lokichoggio',
-    'Kakuma',
-    'Moyale',
-    'Moyale',
-    'Moyale'
-  ]
-
   return (
-    <div className="relative min-h-[700px] lg:min-h-[800px] overflow-hidden">
-      {/* Animated Background Images with Crossfade */}
+    <div className="relative min-h-[88vh] overflow-hidden flex items-center">
+      
+      {/* Background Images with Crossfade */}
       <div className="absolute inset-0">
         {ethiopianLandmarks.map((landmark, index) => (
           <div
             key={index}
-            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1500 ease-in-out ${
-              index === currentBgIndex 
-                ? 'opacity-100 scale-100' 
-                : 'opacity-0 scale-105'
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out ${
+              index === currentBgIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
             }`}
-            style={{ 
-              backgroundImage: `url(${landmark.image})`,
-              transitionDelay: index === currentBgIndex ? '0ms' : '0ms'
-            }}
+            style={{ backgroundImage: `url(${landmark.image})` }}
           />
         ))}
         
-        {/* Rich Gradient Overlays for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#006747]/90 via-[#006747]/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EEF578]/10 via-transparent to-[#006747]/30" />
-        
-        {/* Animated Floating Particles - Ethiopian Stars Effect */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-2 h-2 bg-[#EEF578] rounded-full animate-pulse opacity-30"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Ethiopian Pattern Overlay - Subtle cultural texture */}
+        {/* Multi-layer gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#004d34]/95 via-[#006747]/75 to-[#006747]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-transparent" />
+
+        {/* Subtle pattern overlay */}
         <div 
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.04]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30L30 0z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z'/%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '40px 40px'
           }}
         />
-      </div>
 
-      {/* Background Image Controls */}
-      <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-4">
-        {/* Progress Dots with Labels */}
-        <div className="flex items-center gap-3 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2">
-          {ethiopianLandmarks.map((landmark, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setCurrentBgIndex(index)
-                setIsAutoPlay(false)
-              }}
-              className="group relative flex flex-col items-center"
-            >
-              <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentBgIndex === index 
-                  ? 'bg-[#EEF578] w-8' 
-                  : 'bg-white/50 hover:bg-white/80'
-              }`}>
-                {currentBgIndex === index && isAutoPlay && (
-                  <div 
-                    className="absolute inset-0 bg-white/50 rounded-full origin-left"
-                    style={{
-                      animation: 'progress 5s linear'
-                    }}
-                  />
-                )}
-              </div>
-              {/* Tooltip */}
-              <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                {landmark.name}
-              </span>
-            </button>
-          ))}
-        </div>
-        
-        {/* Auto-play Toggle */}
-        <button
-          onClick={() => setIsAutoPlay(!isAutoPlay)}
-          className="flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-sm rounded-full text-white/70 hover:text-white transition-colors text-sm"
-        >
-          {isAutoPlay ? (
-            <>
-              <Pause className="w-3 h-3" />
-              <span>Pause Slideshow</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-3 h-3" />
-              <span>Play Slideshow</span>
-            </>
-          )}
-        </button>
+        {/* Floating orbs */}
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#EEF578]/10 rounded-full blur-3xl animate-float pointer-events-none" />
+        <div className="absolute bottom-32 right-10 w-72 h-72 bg-[#006747]/20 rounded-full blur-3xl animate-float-reverse pointer-events-none" />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 h-full flex items-center pt-20 pb-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-white space-y-6">
-              {/* Animated Badge */}
-              <div className="inline-flex items-center gap-2 bg-[#006747]/80 backdrop-blur-sm border border-[#EEF578]/30 rounded-full px-4 py-2 animate-fadeIn">
-                <Sparkles className="w-4 h-4 text-[#EEF578] animate-pulse" />
-                <span className="text-sm font-medium text-white">
-                  {ethiopianLandmarks[currentBgIndex].name}
-                </span>
+      <div className="relative z-10 w-full py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Content — spans 7 cols */}
+            <div className={`lg:col-span-7 text-white space-y-8 ${isLoaded ? '' : 'opacity-0'}`}>
+              
+              {/* Location badge */}
+              <div className="animate-fadeIn">
+                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2">
+                  <div className="w-2 h-2 bg-[#EEF578] rounded-full animate-pulse-soft" />
+                  <span className="text-sm font-medium text-white/90">
+                    {ethiopianLandmarks[currentBgIndex].city} &bull; {ethiopianLandmarks[currentBgIndex].subtitle}
+                  </span>
+                </div>
               </div>
 
-              {/* Animated Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                <span className="block animate-slideUp">Discover Ethiopia's</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#EEF578] via-[#FFD700] to-[#FFA500] animate-slideUp animation-delay-200">
-                  Finest Places
-                </span>
-              </h1>
+              {/* Headline */}
+              <div className="space-y-2">
+                <h1 className="font-display animate-slideUp">
+                  <span className="block text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05]">
+                    Discover
+                  </span>
+                  <span className="block text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] text-transparent bg-clip-text" 
+                    style={{ backgroundImage: 'linear-gradient(135deg, #EEF578, #F5F89A, #EEF578)' }}>
+                    Ethiopia&apos;s Best
+                  </span>
+                  <span className="block text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] animate-slideUp animation-delay-200">
+                    Places &amp; Businesses
+                  </span>
+                </h1>
+              </div>
 
-              {/* Animated Subtitle */}
-              <p className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed animate-fadeIn animation-delay-300">
-                Explore the <span className="text-[#EEF578] font-semibold">land of origins</span> — from ancient rock-hewn churches of Lalibela 
-                to the breathtaking peaks of the Simien Mountains. Find hotels, restaurants, 
-                and experiences across Ethiopia.
+              {/* Subtitle */}
+              <p className="text-lg md:text-xl text-white/80 max-w-lg leading-relaxed animate-fadeIn animation-delay-300">
+                From the ancient wonders of Lalibela to vibrant Addis Ababa — 
+                find verified hotels, restaurants, cafés, and local businesses across 
+                <span className="text-[#EEF578] font-semibold"> 80+ Ethiopian cities</span>.
               </p>
 
-              {/* Animated Search Bar - Enhanced Glassmorphism */}
-              <div className="bg-white/15 backdrop-blur-lg border border-white/30 rounded-2xl p-2 max-w-2xl shadow-2xl animate-fadeIn animation-delay-400 hover:bg-white/20 transition-all duration-300">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                  {/* Search Input */}
-                  <div className="flex-1 flex items-center gap-3 px-4 py-3 bg-white/95 rounded-xl shadow-inner">
-                    <Search className="w-5 h-5 text-[#006747] flex-shrink-0" />
-                    <input
-                      type="text"
-                      placeholder="Search hotels, restaurants, places..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="flex-1 outline-none text-neutral-800 placeholder-neutral-500 bg-transparent text-sm font-medium"
-                    />
-                  </div>
-                  
-                  {/* Location Dropdown */}
-                  <div className="flex items-center gap-2 px-4 py-3 bg-white/95 rounded-xl shadow-inner">
-                    <MapPin className="w-5 h-5 text-[#006747] flex-shrink-0" />
-                    <select 
-                      value={selectedLocation}
-                      onChange={(e) => setSelectedLocation(e.target.value)}
-                      className="outline-none text-neutral-700 bg-transparent text-sm min-w-[120px] cursor-pointer font-medium"
-                    >
-                      {ethiopianCities.map((city, index) => (
-                        <option key={index} value={city}>
-                          {city}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+              {/* Search Bar */}
+              <div className="animate-fadeIn animation-delay-400">
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2 max-w-2xl shadow-2xl">
+                  <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                    {/* Search Input */}
+                    <div className="flex-1 flex items-center gap-3 px-4 py-3.5 bg-white rounded-xl">
+                      <Search className="w-5 h-5 text-[#006747] flex-shrink-0" />
+                      <input
+                        type="text"
+                        id="hero-search"
+                        placeholder="Hotels, restaurants, cafés..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            window.location.href = `/businesses?search=${encodeURIComponent(searchQuery)}&city=${encodeURIComponent(selectedLocation)}`
+                          }
+                        }}
+                        className="flex-1 outline-none text-neutral-800 placeholder-neutral-400 bg-transparent text-sm font-medium"
+                      />
+                    </div>
+                    
+                    {/* Location Selector */}
+                    <div className="flex items-center gap-2 px-4 py-3.5 bg-white rounded-xl min-w-0 sm:min-w-[160px]">
+                      <MapPin className="w-4 h-4 text-[#006747] flex-shrink-0" />
+                      <select 
+                        value={selectedLocation}
+                        onChange={(e) => setSelectedLocation(e.target.value)}
+                        className="outline-none text-neutral-700 bg-transparent text-sm cursor-pointer font-medium w-full"
+                      >
+                        {ethiopianCities.map((city, i) => (
+                          <option key={i} value={city}>{city}</option>
+                        ))}
+                      </select>
+                    </div>
 
-                  {/* Search Button - Ethiopian Green */}
-                  <Link 
-                    href={`/businesses?search=${encodeURIComponent(searchQuery)}&city=${encodeURIComponent(selectedLocation)}`}
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#006747] to-[#00523A] hover:from-[#00523A] hover:to-[#00402C] text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform"
-                  >
-                    <span>Explore</span>
-                    <ChevronRight className="w-4 h-4 animate-bounce" />
-                  </Link>
+                    {/* Search CTA */}
+                    <Link 
+                      href={`/businesses?search=${encodeURIComponent(searchQuery)}&city=${encodeURIComponent(selectedLocation)}`}
+                      className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#006747] to-[#008B5F] hover:from-[#008B5F] hover:to-[#006747] text-white px-6 py-3.5 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
+                    >
+                      <span>Search</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Quick search suggestions */}
+                <div className="flex flex-wrap gap-2 mt-3 animate-fadeIn animation-delay-500">
+                  <span className="text-white/50 text-xs font-medium">Popular:</span>
+                  {['Restaurants', 'Hotels', 'Cafés', 'Pharmacies'].map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => setSearchQuery(tag)}
+                      className="px-3 py-1 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white/80 text-xs font-medium transition-colors backdrop-blur-sm"
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {/* Animated Quick Stats */}
-              <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm animate-fadeIn animation-delay-500">
-                <div className="flex items-center gap-2 group">
-                  <div className="w-10 h-10 bg-[#EEF578]/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-[#EEF578]/30 transition-all duration-300 group-hover:scale-110">
-                    <Compass className="w-5 h-5 text-[#EEF578]" />
+              {/* Stats Row */}
+              <div className="flex flex-wrap items-center gap-6 animate-fadeIn animation-delay-600">
+                {statsData.map(({ value, label, icon: Icon }, i) => (
+                  <div key={i} className="flex items-center gap-2 group">
+                    <div className="w-9 h-9 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-[#EEF578]/20 transition-colors">
+                      <Icon className="w-4 h-4 text-[#EEF578]" />
+                    </div>
+                    <div>
+                      <div className="text-white font-bold text-sm leading-none">{value}</div>
+                      <div className="text-white/60 text-xs leading-none mt-0.5">{label}</div>
+                    </div>
                   </div>
-                  <span className="font-medium">1000+ Places</span>
-                </div>
-                <div className="flex items-center gap-2 group">
-                  <div className="w-10 h-10 bg-[#EEF578]/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-[#EEF578]/30 transition-all duration-300 group-hover:scale-110">
-                    <MapPin className="w-5 h-5 text-[#EEF578]" />
-                  </div>
-                  <span className="font-medium">80+ Cities</span>
-                </div>
-                <div className="flex items-center gap-2 group">
-                  <div className="w-10 h-10 bg-[#EEF578]/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-[#EEF578]/30 transition-all duration-300 group-hover:scale-110">
-                    <Sparkles className="w-5 h-5 text-[#EEF578]" />
-                  </div>
-                  <span className="font-medium">Top Rated</span>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Right Content - Featured Cards */}
-            <div className="hidden lg:block">
+            {/* Right Content — spans 5 cols, desktop only */}
+            <div className="hidden lg:block lg:col-span-5 animate-fadeIn animation-delay-600">
               <div className="relative">
-                {/* Animated Featured Card */}
-                <div className="bg-white/10 backdrop-blur-lg border border-white/30 rounded-3xl p-6 shadow-2xl animate-fadeIn animation-delay-600 hover:bg-white/15 transition-all duration-500">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-white font-semibold text-lg flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[#EEF578]" />
-                      Featured Destinations
-                    </h3>
-                    <span className="text-white/60 text-sm bg-white/10 px-2 py-1 rounded-full">
-                      {currentBgIndex + 1}/{ethiopianLandmarks.length}
+                {/* Main card */}
+                <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl">
+                  <div className="flex items-center justify-between mb-5">
+                    <div>
+                      <h3 className="text-white font-bold text-base flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#EEF578]" />
+                        Featured Destinations
+                      </h3>
+                      <p className="text-white/50 text-xs mt-0.5">Explore Ethiopia&apos;s finest</p>
+                    </div>
+                    <span className="text-white/40 text-xs bg-white/10 px-2 py-1 rounded-full">
+                      {currentBgIndex + 1} / {ethiopianLandmarks.length}
                     </span>
                   </div>
                   
-                  <div className="space-y-3 max-h-[280px] overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                  <div className="space-y-2.5">
                     {ethiopianLandmarks.map((landmark, index) => (
                       <button
                         key={index}
@@ -417,13 +248,15 @@ export default function HeroSection() {
                           setCurrentBgIndex(index)
                           setIsAutoPlay(false)
                         }}
-                        className={`w-full flex items-center gap-4 p-3 rounded-xl transition-all duration-300 text-left group ${
+                        className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-all duration-300 text-left group ${
                           currentBgIndex === index
-                            ? 'bg-gradient-to-r from-[#006747]/50 to-[#006747]/30 border border-[#EEF578]/50 shadow-lg'
-                            : 'bg-white/5 border border-white/10 hover:bg-white/15 hover:border-white/20'
+                            ? 'bg-gradient-to-r from-white/20 to-white/10 border border-[#EEF578]/40 shadow-lg'
+                            : 'bg-white/5 border border-white/10 hover:bg-white/12 hover:border-white/20'
                         }`}
                       >
-                        <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 ring-2 ring-white/20 group-hover:ring-[#EEF578]/50 transition-all duration-300">
+                        <div className={`w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 ring-2 transition-all duration-300 ${
+                          currentBgIndex === index ? 'ring-[#EEF578]/60' : 'ring-white/20 group-hover:ring-white/40'
+                        }`}>
                           <img 
                             src={landmark.image} 
                             alt={landmark.name}
@@ -431,15 +264,16 @@ export default function HeroSection() {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className={`font-medium truncate ${
-                            currentBgIndex === index ? 'text-white' : 'text-white/90'
+                          <h4 className={`font-semibold text-sm truncate transition-colors ${
+                            currentBgIndex === index ? 'text-white' : 'text-white/80'
                           }`}>
                             {landmark.name}
                           </h4>
-                          <p className="text-white/60 text-sm truncate">{landmark.description}</p>
+                          <p className="text-white/50 text-xs mt-0.5">{landmark.subtitle}</p>
                         </div>
                         {currentBgIndex === index && (
-                          <div className="w-3 h-3 bg-[#EEF578] rounded-full flex-shrink-0 animate-pulse shadow-lg shadow-[#EEF578]/50" />
+                          <div className="w-2 h-2 bg-[#EEF578] rounded-full flex-shrink-0 animate-pulse-soft shadow-lg" 
+                            style={{ boxShadow: '0 0 8px rgba(238, 245, 120, 0.8)' }} />
                         )}
                       </button>
                     ))}
@@ -448,21 +282,76 @@ export default function HeroSection() {
                   {/* CTA Button */}
                   <Link 
                     href="/businesses"
-                    className="mt-4 w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[#EEF578]/20 to-[#EEF578]/10 hover:from-[#EEF578]/30 hover:to-[#EEF578]/20 border border-[#EEF578]/30 text-white py-3 rounded-xl font-medium transition-all duration-300 group"
+                    className="mt-5 w-full flex items-center justify-center gap-2 bg-[#EEF578]/15 hover:bg-[#EEF578]/25 border border-[#EEF578]/30 text-white py-3 rounded-xl font-semibold transition-all duration-300 group text-sm"
                   >
-                    <span>View All Destinations</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <span>Browse All Businesses</span>
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </Link>
                 </div>
 
-                {/* Enhanced Decorative Elements with Animation */}
-                <div className="absolute -top-4 -right-4 w-32 h-32 bg-[#EEF578]/30 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute -bottom-4 -left-4 w-40 h-40 bg-[#006747]/40 rounded-full blur-3xl animate-pulse animation-delay-1000" />
-                <div className="absolute top-1/2 -right-8 w-20 h-20 bg-[#FFD700]/20 rounded-full blur-2xl animate-bounce" />
+                {/* Floating mini-card: Verified badge */}
+                <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-neutral-100">
+                  <div className="w-10 h-10 bg-[#D1EFE4] rounded-xl flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-[#006747]" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-neutral-800">Verified Listings</p>
+                    <p className="text-xs text-neutral-500">100% Authentic</p>
+                  </div>
+                </div>
+
+                {/* Floating mini-card: Users */}
+                <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-xl p-3.5 border border-neutral-100">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-[#006747]" />
+                    <div>
+                      <p className="text-xs font-bold text-neutral-800">50K+ Users</p>
+                      <p className="text-xs text-neutral-500">Trust HelloET</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decorative glows */}
+                <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-[#EEF578]/20 rounded-full blur-3xl animate-pulse-soft" />
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Slideshow Controls */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
+        <div className="flex items-center gap-2 bg-black/30 backdrop-blur-md rounded-full px-4 py-2">
+          {ethiopianLandmarks.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setCurrentBgIndex(index)
+                setIsAutoPlay(false)
+              }}
+              className={`transition-all duration-300 rounded-full ${
+                currentBgIndex === index 
+                  ? 'w-8 h-2 bg-[#EEF578]' 
+                  : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+        
+        <button
+          onClick={() => setIsAutoPlay(!isAutoPlay)}
+          className="w-8 h-8 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white/70 hover:text-white transition-colors"
+        >
+          {isAutoPlay ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+        </button>
+      </div>
+
+      {/* Bottom wave */}
+      <div className="absolute bottom-0 left-0 right-0 z-10">
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 60L1440 60L1440 20C1200 55 960 5 720 25C480 45 240 0 0 30L0 60Z" fill="#FAFAFA"/>
+        </svg>
       </div>
     </div>
   )

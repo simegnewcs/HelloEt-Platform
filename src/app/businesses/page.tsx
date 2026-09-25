@@ -160,22 +160,30 @@ export default function AllBusinessesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-14 h-14 border-3 border-[#D1EFE4] border-t-[#006747] rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-neutral-500 font-medium">Finding businesses...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FAFAFA]">
       {/* Header */}
-      <div className="bg-gradient-to-br from-primary-50 to-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="bg-gradient-to-br from-[#004d34] via-[#006747] to-[#008B5F] py-14 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E")`, backgroundSize: '40px 40px' }} />
+        <div className="max-w-7xl mx-auto relative">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-neutral-800 mb-4">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
+              <Building2 className="w-3.5 h-3.5 text-[#EEF578]" />
+              <span className="text-white/80 text-xs font-medium">Ethiopia's Business Directory</span>
+            </div>
+            <h1 className="font-display text-4xl md:text-5xl font-black text-white mb-3">
               {categoryFromUrl !== 'all' ? `${categoryFromUrl} Businesses` : 'All Businesses in Ethiopia'}
             </h1>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+            <p className="text-white/70 text-lg max-w-xl mx-auto">
               {categoryFromUrl !== 'all' 
                 ? `Discover trusted ${categoryFromUrl.toLowerCase()} businesses across Ethiopia`
                 : 'Discover trusted local businesses across all categories and locations'
@@ -184,24 +192,24 @@ export default function AllBusinessesPage() {
           </div>
 
           {/* Search Bar */}
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg p-2 flex items-center gap-2">
-              <div className="flex-1 flex items-center gap-3 px-4">
-                <Search className="w-5 h-5 text-neutral-400" />
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1.5 flex items-center gap-2 shadow-xl">
+              <div className="flex-1 flex items-center gap-3 px-4 py-2.5 bg-white rounded-xl">
+                <Search className="w-4 h-4 text-[#006747] flex-shrink-0" />
                 <input
                   type="text"
-                  placeholder="Search businesses, categories, or locations..."
+                  placeholder="Search businesses, categories..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="flex-1 py-3 outline-none text-neutral-800 placeholder-neutral-400"
+                  className="flex-1 outline-none text-neutral-800 placeholder-neutral-400 text-sm bg-transparent"
                 />
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-4 py-3 border-l border-neutral-200 hover:bg-neutral-50 transition-colors"
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all font-semibold text-sm ${showFilters ? 'bg-[#EEF578] text-[#004d34]' : 'bg-white/15 text-white hover:bg-white/25'}`}
               >
-                <Filter className="w-5 h-5 text-neutral-600" />
-                <span className="text-neutral-600">Filters</span>
+                <Filter className="w-4 h-4" />
+                <span>Filters</span>
               </button>
             </div>
           </div>
@@ -210,15 +218,15 @@ export default function AllBusinessesPage() {
 
       {/* Filters */}
       {showFilters && (
-        <div className="bg-neutral-50 border-b border-neutral-200 px-4 py-4">
+        <div className="bg-white border-b border-neutral-100 px-4 py-5 shadow-sm">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">Category</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
-                  className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006747]/20 focus:border-[#006747] text-sm bg-white"
                 >
                   <option value="all">All Categories</option>
                   {categories.map((category) => (
@@ -230,58 +238,56 @@ export default function AllBusinessesPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">Location</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Location</label>
                 <select
                   value={selectedLocation}
                   onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006747]/20 focus:border-[#006747] text-sm bg-white"
                 >
                   {locations.map((location) => (
-                    <option key={location} value={location}>
-                      {location}
-                    </option>
+                    <option key={location} value={location}>{location}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">Sort By</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">Sort By</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2.5 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006747]/20 focus:border-[#006747] text-sm bg-white"
                 >
-                  <option value="name">Name</option>
-                  <option value="rating">Rating</option>
-                  <option value="reviews">Reviews</option>
+                  <option value="name">Name A-Z</option>
+                  <option value="rating">Highest Rated</option>
+                  <option value="reviews">Most Reviews</option>
                   <option value="verified">Verified First</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-700 mb-2">View Mode</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-wider mb-2">View</label>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 border rounded-lg transition-colors ${
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 border rounded-xl transition-all text-sm font-medium ${
                       viewMode === 'grid' 
-                        ? 'bg-primary-500 text-white border-primary-500' 
-                        : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'
+                        ? 'bg-[#006747] text-white border-[#006747] shadow-md' 
+                        : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#006747]/40'
                     }`}
                   >
                     <Grid className="w-4 h-4" />
-                    <span>Grid</span>
+                    Grid
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 border rounded-lg transition-colors ${
+                    className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 border rounded-xl transition-all text-sm font-medium ${
                       viewMode === 'list' 
-                        ? 'bg-primary-500 text-white border-primary-500' 
-                        : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'
+                        ? 'bg-[#006747] text-white border-[#006747] shadow-md' 
+                        : 'bg-white text-neutral-600 border-neutral-200 hover:border-[#006747]/40'
                     }`}
                   >
                     <List className="w-4 h-4" />
-                    <span>List</span>
+                    List
                   </button>
                 </div>
               </div>
@@ -294,12 +300,12 @@ export default function AllBusinessesPage() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-800">
-              {filteredBusinesses.length} Businesses Found
+            <h2 className="font-display text-2xl font-bold text-neutral-900">
+              <span className="text-[#006747]">{filteredBusinesses.length}</span> Businesses Found
             </h2>
-            <p className="text-neutral-600 mt-1">
-              {selectedCategory !== 'all' && `${selectedCategory} • `}
-              {selectedLocation !== 'all' && `${selectedLocation} • `}
+            <p className="text-neutral-500 text-sm mt-0.5">
+              {selectedCategory !== 'all' && <span className="inline-flex items-center gap-1 bg-[#D1EFE4] text-[#006747] px-2 py-0.5 rounded-full text-xs font-semibold mr-2">{selectedCategory}</span>}
+              {selectedLocation !== 'all' && <span className="inline-flex items-center gap-1 bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full text-xs font-semibold mr-2">{selectedLocation}</span>}
               Sorted by {sortBy}
             </p>
           </div>
@@ -317,65 +323,59 @@ export default function AllBusinessesPage() {
                   <Link
                     key={business.id}
                     href={`/business/${business.slug}`}
-                    className="group bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden hover:shadow-md transition-shadow"
+                    className="group bg-white rounded-2xl border border-neutral-100 overflow-hidden hover:border-transparent hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-48 overflow-hidden bg-neutral-100">
                       {business.image ? (
                         <img
                           src={business.image}
                           alt={business.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full bg-neutral-200 flex items-center justify-center">
-                          <CategoryIcon className="w-12 h-12 text-neutral-400" />
+                        <div className="w-full h-full bg-gradient-to-br from-[#D1EFE4] to-[#006747]/20 flex items-center justify-center">
+                          <CategoryIcon className="w-14 h-14 text-[#006747]/40" />
                         </div>
                       )}
-                      <div className="absolute top-3 left-3 bg-white px-2 py-1 rounded-full text-xs font-medium text-neutral-700">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-semibold text-neutral-700">
                         {business.category}
                       </div>
                       {business.verified && (
-                        <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                          ✓ Verified
+                        <div className="absolute top-3 right-3 bg-[#006747] text-white px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1">
+                          <span>✓</span> Verified
                         </div>
                       )}
                     </div>
                     
                     <div className="p-5">
-                      <h3 className="font-semibold text-lg text-neutral-800 mb-2 group-hover:text-primary-600 transition-colors">
+                      <h3 className="font-display font-bold text-base text-neutral-900 mb-2 group-hover:text-[#006747] transition-colors leading-tight">
                         {business.name}
                       </h3>
                       
-                      <div className="flex items-center gap-1 mb-2">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="text-sm font-medium text-neutral-700">
-                          {business.rating.toFixed(1)}
-                        </span>
-                        <span className="text-sm text-neutral-500">
-                          ({business.reviewCount} reviews)
-                        </span>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                        <span className="text-sm font-bold text-neutral-800">{business.rating.toFixed(1)}</span>
+                        <span className="text-xs text-neutral-400">({business.reviewCount})</span>
                       </div>
                       
-                      <div className="flex items-center gap-1 text-sm text-neutral-600 mb-3">
-                        <MapPin className="w-4 h-4" />
-                        <span>{business.location}</span>
+                      <div className="flex items-center gap-1.5 text-xs text-neutral-500 mb-3">
+                        <MapPin className="w-3.5 h-3.5 text-[#006747]" />
+                        <span className="truncate">{business.location}</span>
                       </div>
                       
                       {business.description && (
-                        <p className="text-sm text-neutral-600 line-clamp-2 mb-3">
+                        <p className="text-xs text-neutral-500 line-clamp-2 mb-4 leading-relaxed">
                           {business.description}
                         </p>
                       )}
                       
-                      <Link
-                        href={`/business/${business.slug}`}
-                        className="inline-flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                      >
+                      <div className="inline-flex items-center gap-1.5 bg-[#D1EFE4] text-[#006747] px-3 py-1.5 rounded-lg text-xs font-bold group-hover:bg-[#006747] group-hover:text-white transition-colors">
                         <span>View Details</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                         </svg>
-                      </Link>
+                      </div>
                     </div>
                   </Link>
                 )
@@ -470,14 +470,16 @@ export default function AllBusinessesPage() {
             </div>
           )
         ) : (
-          <div className="text-center py-12">
-            <Building2 className="w-16 h-16 text-neutral-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-neutral-800 mb-2">
+          <div className="text-center py-20">
+            <div className="w-20 h-20 bg-[#D1EFE4] rounded-3xl flex items-center justify-center mx-auto mb-5">
+              <Building2 className="w-10 h-10 text-[#006747]" />
+            </div>
+            <h3 className="font-display text-xl font-bold text-neutral-900 mb-2">
               {categoryFromUrl !== 'all' ? `No ${categoryFromUrl} businesses found` : 'No businesses found'}
             </h3>
-            <p className="text-neutral-600 mb-6">
+            <p className="text-neutral-500 mb-6 text-sm max-w-sm mx-auto">
               {categoryFromUrl !== 'all' 
-                ? `Try selecting a different category or clearing filters to see all businesses`
+                ? 'Try selecting a different category or clearing filters'
                 : 'Try adjusting your search criteria or filters'
               }
             </p>
@@ -487,7 +489,7 @@ export default function AllBusinessesPage() {
                 setSelectedLocation('all')
                 handleCategoryChange('all')
               }}
-              className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#006747] to-[#008B5F] text-white px-6 py-3 rounded-xl font-bold text-sm transition-all hover:shadow-lg"
             >
               {categoryFromUrl !== 'all' ? 'Show All Businesses' : 'Clear Filters'}
             </button>

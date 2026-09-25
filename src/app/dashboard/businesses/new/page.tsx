@@ -49,7 +49,7 @@ export default function NewBusinessPage() {
     city: '',
     subcity: '',
     address: '',
-    latitude: '',
+
     longitude: '',
     phone: '',
     email: '',
@@ -158,7 +158,7 @@ export default function NewBusinessPage() {
           city: '',
           subcity: '',
           address: '',
-          latitude: '',
+
           longitude: '',
           phone: '',
           email: '',
@@ -315,35 +315,7 @@ export default function NewBusinessPage() {
                   </select>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Latitude
-                  </label>
-                  <input
-                    type="number"
-                    step="any"
-                    name="latitude"
-                    value={formData.latitude}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    placeholder="9.0242"
-                  />
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Longitude
-                  </label>
-                  <input
-                    type="number"
-                    step="any"
-                    name="longitude"
-                    value={formData.longitude}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    placeholder="38.7468"
-                  />
-                </div>
               </div>
             </div>
 

@@ -66,6 +66,14 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        '2xs': ['10px', { lineHeight: '14px' }],
+      },
+      borderWidth: {
+        '3': '3px',
       },
     },
   },

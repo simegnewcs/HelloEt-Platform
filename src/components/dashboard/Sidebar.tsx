@@ -1,283 +1,162 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 import { 
-  LayoutDashboard, 
-  Building2, 
-  Star, 
-  TrendingUp, 
-  MessageSquare, 
-  Settings, 
-  CreditCard, 
-  Users, 
-  FileText,
-  ChevronDown,
-  ChevronRight,
-  LogOut,
-  Search,
-  Heart,
-  History,
-  Bookmark,
-  PlusCircle,
-  Bell
+  LayoutDashboard, Building2, Star, TrendingUp, 
+  MessageSquare, Settings, CreditCard, Search,
+  Bookmark, History, Bell, PlusCircle, FileText,
+  LogOut, ChevronRight, Sparkles
 } from 'lucide-react'
 
-interface SidebarItem {
+interface NavItem {
   name: string
   href: string
   icon: any
-  badge?: string
-  children?: SidebarItem[]
+  badge?: string | number
 }
 
-// Business Owner Navigation Items
-const businessOwnerItems: SidebarItem[] = [
-  {
-    name: 'Overview',
-    href: '/dashboard',
-    icon: LayoutDashboard
-  },
-  {
-    name: 'My Businesses',
-    href: '/dashboard/listings',
-    icon: Building2,
-    badge: '3'
-  },
-  {
-    name: 'Add Business',
-    href: '/dashboard/businesses/new',
-    icon: PlusCircle
-  },
-  {
-    name: 'Customer Reviews',
-    href: '/dashboard/reviews',
-    icon: Star,
-    badge: '12'
-  },
-  {
-    name: 'Analytics',
-    href: '/dashboard/analytics',
-    icon: TrendingUp
-  },
-  {
-    name: 'Messages',
-    href: '/dashboard/messages',
-    icon: MessageSquare,
-    badge: '5'
-  },
-  {
-    name: 'Billing',
-    href: '/dashboard/billing',
-    icon: CreditCard
-  },
-  {
-    name: 'Settings',
-    href: '/dashboard/settings',
-    icon: Settings
-  }
+const businessOwnerItems: NavItem[] = [
+  { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'My Businesses', href: '/dashboard/listings', icon: Building2, badge: '3' },
+  { name: 'Add Business', href: '/dashboard/businesses/new', icon: PlusCircle },
+  { name: 'Customer Reviews', href: '/dashboard/reviews', icon: Star, badge: '12' },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: TrendingUp },
+  { name: 'Messages', href: '/dashboard/messages', icon: MessageSquare, badge: '5' },
+  { name: 'Billing', href: '/dashboard/billing', icon: CreditCard },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]
 
-// Regular User Navigation Items
-const userItems: SidebarItem[] = [
-  {
-    name: 'Overview',
-    href: '/dashboard',
-    icon: LayoutDashboard
-  },
-  {
-    name: 'Find Businesses',
-    href: '/businesses',
-    icon: Search
-  },
-  {
-    name: 'My Reviews',
-    href: '/my-reviews',
-    icon: Star,
-    badge: '5'
-  },
-  {
-    name: 'Saved Places',
-    href: '/saved',
-    icon: Bookmark
-  },
-  {
-    name: 'Recent Activity',
-    href: '/activity',
-    icon: History
-  },
-  {
-    name: 'Notifications',
-    href: '/notifications',
-    icon: Bell,
-    badge: '2'
-  },
-  {
-    name: 'Settings',
-    href: '/dashboard/settings',
-    icon: Settings
-  }
+const userItems: NavItem[] = [
+  { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Find Businesses', href: '/businesses', icon: Search },
+  { name: 'My Reviews', href: '/my-reviews', icon: Star, badge: '5' },
+  { name: 'Saved Places', href: '/saved', icon: Bookmark },
+  { name: 'Recent Activity', href: '/activity', icon: History },
+  { name: 'Notifications', href: '/notifications', icon: Bell, badge: '2' },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ]
 
 export default function Sidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
-  const [expandedItems, setExpandedItems] = useState<string[]>([])
 
-  // Determine user role and get appropriate navigation items
-  const userRole = session?.user?.role
-  const isBusinessOwner = userRole === 'BUSINESS_OWNER'
+  const isBusinessOwner = session?.user?.role === 'BUSINESS_OWNER'
   const sidebarItems = isBusinessOwner ? businessOwnerItems : userItems
-
-  const toggleExpanded = (itemName: string) => {
-    setExpandedItems(prev =>
-      prev.includes(itemName)
-        ? prev.filter(item => item !== itemName)
-        : [...prev, itemName]
-    )
-  }
+  const userName = session?.user?.name || 'User'
+  const userInitials = userName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
 
   const isActive = (href: string) => {
-    if (href === '/dashboard') {
-      return pathname === href
-    }
+    if (href === '/dashboard') return pathname === href
     return pathname.startsWith(href)
   }
 
   return (
-    <div className="w-64 bg-white border-r border-neutral-200 h-full flex flex-col">
-      {/* Logo Section */}
-      <div className="p-6 border-b border-neutral-200">
-        <Link href="/dashboard" className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-[#006747] rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">H</span>
+    <aside className="w-64 bg-white border-r border-neutral-100 h-full flex flex-col shadow-sm">
+      
+      {/* Logo */}
+      <div className="p-5 border-b border-neutral-100">
+        <Link href="/dashboard" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#006747] to-[#008B5F] rounded-xl flex items-center justify-center shadow-sm">
+            <span className="text-white font-black text-lg font-display">H</span>
           </div>
           <div>
-            <div className="text-lg font-bold text-neutral-800">HelloET</div>
-            <div className="text-xs text-neutral-500">{isBusinessOwner ? 'Business Dashboard' : 'User Dashboard'}</div>
+            <div className="font-display font-black text-neutral-900 leading-none">
+              Hello<span className="text-[#006747]">ET</span>
+            </div>
+            <div className="text-[10px] text-neutral-400 font-medium mt-0.5">
+              {isBusinessOwner ? 'Business Dashboard' : 'User Dashboard'}
+            </div>
           </div>
         </Link>
       </div>
 
+      {/* Upgrade Banner (for business owner on free plan) */}
+      {isBusinessOwner && (
+        <div className="mx-3 my-3 p-3 bg-gradient-to-br from-[#004d34] to-[#006747] rounded-xl text-white">
+          <div className="flex items-center gap-1.5 mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-[#EEF578]" />
+            <span className="text-xs font-bold">Free Plan</span>
+          </div>
+          <p className="text-[10px] text-white/70 mb-2 leading-relaxed">Upgrade to Premium for advanced analytics &amp; featured listings</p>
+          <Link href="/dashboard/billing" className="flex items-center justify-between text-[11px] font-semibold bg-[#EEF578] text-[#004d34] px-3 py-1.5 rounded-lg">
+            <span>Upgrade Now</span>
+            <ChevronRight className="w-3 h-3" />
+          </Link>
+        </div>
+      )}
+
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto scrollbar-thin">
+        {/* Section label */}
+        <p className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider px-3 py-2 mt-1">
+          {isBusinessOwner ? 'Business' : 'Navigation'}
+        </p>
+        
         {sidebarItems.map((item) => {
           const Icon = item.icon
-          const isExpanded = expandedItems.includes(item.name)
           const active = isActive(item.href)
 
           return (
-            <div key={item.name}>
-              <Link
-                href={item.href}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors group ${
-                  active
-                    ? 'bg-[#D1EFE4] text-[#006747] border-l-2 border-[#006747]'
-                    : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-800'
-                }`}
-                onClick={() => {
-                  if (item.children) {
-                    toggleExpanded(item.name)
-                  }
-                }}
-              >
-                <div className="flex items-center space-x-3">
-                  <Icon className={`w-5 h-5 ${active ? "text-[#006747]" : "text-neutral-400 group-hover:text-neutral-600"}`} />
-                  <span className="font-medium">{item.name}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  {item.badge && (
-                    <span className={`px-2 py-0.5 text-xs rounded-full ${
-                      active ? "bg-[#006747] text-white" : "bg-neutral-200 text-neutral-600"
-                    }`}>
-                      {item.badge}
-                    </span>
-                  )}
-                  {item.children && (
-                    isExpanded ? (
-                      <ChevronDown className="w-4 h-4 text-neutral-400" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4 text-neutral-400" />
-                    )
-                  )}
-                </div>
-              </Link>
-
-              {/* Sub-items */}
-              {item.children && isExpanded && (
-                <div className="ml-8 mt-1 space-y-1">
-                  {item.children.map((child) => {
-                    const childActive = pathname === child.href
-                    const ChildIcon = child.icon
-
-                    return (
-                      <Link
-                        key={child.name}
-                        href={child.href}
-                        className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                          childActive
-                            ? 'bg-[#D1EFE4] text-[#006747]'
-                            : 'text-neutral-600 hover:bg-[#D1EFE4] hover:text-[#006747]'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <ChildIcon className="w-4 h-4 text-neutral-400" />
-                          <span className="text-sm">{child.name}</span>
-                        </div>
-                        {child.badge && (
-                          <span className={`px-2 py-0.5 text-xs rounded-full ${
-                            childActive ? "bg-[#006747] text-white" : "bg-neutral-200 text-neutral-600"
-                          }`}>
-                            {child.badge}
-                          </span>
-                        )}
-                      </Link>
-                    )
-                  })}
-                </div>
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-200 group ${
+                active
+                  ? 'bg-[#006747] text-white shadow-sm'
+                  : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-600'}`} />
+                <span className="font-medium text-sm">{item.name}</span>
+              </div>
+              {item.badge && (
+                <span className={`px-1.5 py-0.5 text-[10px] font-bold rounded-full min-w-[18px] text-center ${
+                  active 
+                    ? 'bg-white/25 text-white' 
+                    : 'bg-[#D1EFE4] text-[#006747]'
+                }`}>
+                  {item.badge}
+                </span>
               )}
-            </div>
+            </Link>
           )
         })}
       </nav>
 
-      {/* Bottom Section */}
-      <div className="p-4 border-t border-neutral-200">
-        <div className="space-y-2">
-          <Link
-            href="/dashboard/help"
-            className="flex items-center space-x-3 px-3 py-2 text-neutral-600 hover:bg-[#D1EFE4] hover:text-[#006747] rounded-lg transition-colors"
-          >
-            <FileText className="w-5 h-5 text-neutral-400" />
-            <span className="font-medium">Help & Support</span>
-          </Link>
-          
-          <button 
-            onClick={() => signOut({ callbackUrl: '/' })}
-            className="w-full flex items-center space-x-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="font-medium">Sign Out</span>
-          </button>
-        </div>
+      {/* Bottom */}
+      <div className="p-3 border-t border-neutral-100 space-y-1">
+        <Link
+          href="/dashboard/help"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700 transition-colors"
+        >
+          <FileText className="w-4 h-4 text-neutral-400" />
+          <span className="text-sm font-medium">Help &amp; Support</span>
+        </Link>
+        
+        <button
+          onClick={() => signOut({ callbackUrl: '/' })}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-500 hover:bg-red-50 transition-colors"
+        >
+          <LogOut className="w-4 h-4" />
+          <span className="text-sm font-medium">Sign Out</span>
+        </button>
 
-        {/* User Info */}
-        <div className="mt-4 p-3 bg-[#D1EFE4]/50 rounded-lg">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-[#006747] rounded-full flex items-center justify-center">
-              <span className="text-white font-medium text-sm">
-                {session?.user?.name?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || 'U'}
-              </span>
+        {/* User info card */}
+        <div className="mt-2 p-3 bg-neutral-50 rounded-xl border border-neutral-100">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-gradient-to-br from-[#006747] to-[#008B5F] rounded-xl flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-bold text-xs">{userInitials}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium text-neutral-800 truncate">{session?.user?.name || 'User'}</div>
-              <div className="text-xs text-neutral-500 truncate">{session?.user?.email || 'user@example.com'}</div>
+              <div className="text-sm font-semibold text-neutral-900 truncate">{userName}</div>
+              <div className="text-xs text-neutral-400 truncate">{session?.user?.email}</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </aside>
   )
 }
