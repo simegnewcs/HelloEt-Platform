@@ -321,7 +321,7 @@ function BusinessOwnerDashboard({ session }: { session: any }) {
       title: 'Your Businesses',
       value: stats.totalBusinesses,
       change: 'Total',
-      changeType: 'neutral' as const,
+      changeType: 'neutral' as 'positive' | 'negative' | 'neutral',
       icon: Building2,
       color: 'bg-[#006747]',
       href: '/dashboard/listings'
